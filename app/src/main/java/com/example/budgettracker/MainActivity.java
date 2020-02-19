@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     String combi;
     ArrayList<String> aList = new ArrayList<String>();
     ArrayList<Integer> totalCost = new ArrayList<Integer>();
+    DatabaseHelper myDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         final EditText costEditText = (EditText) findViewById(R.id.costEditView);
         Button addButton = (Button) findViewById(R.id.addButton);
         Button viewButton = (Button) findViewById(R.id.viewButton);
+
+        myDb = new DatabaseHelper(this);
 
         final Intent i = new Intent(getApplicationContext(), ActivityList.class);
 
