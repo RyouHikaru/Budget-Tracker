@@ -32,11 +32,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
     }
 
-    public boolean insertData(String date, String food) {
+    public boolean insertData(String date, String homeExpense) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1, date);
-        contentValues.put(COL_2, food);
+        contentValues.put(COL_3, homeExpense);
 
         long result = db.insert(TABLE_NAME, null, contentValues);
         if (result == -1) {
