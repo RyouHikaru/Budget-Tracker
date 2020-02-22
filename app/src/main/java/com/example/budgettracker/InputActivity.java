@@ -5,7 +5,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -17,12 +16,13 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
 
 public class InputActivity extends AppCompatActivity {
-    EditText dateEditText;
+    TextView dateTextView;
     EditText costEditText;
     Button selectDateButton;
     Button addButton;
@@ -30,7 +30,9 @@ public class InputActivity extends AppCompatActivity {
     DatabaseHelper myDb;
     Spinner spinner;
     DatePickerDialog datePickerDialog;
-    String[] list = {"", "Food and Groceries", "Home expenses", "Entertainment"};
+    String[] list = {"Select Category", "Food and Groceries", "Housing", "Transportation",
+                        "Utilities", "Insurance", "Medical and Healthcare", "Debt and Investment",
+                        "Entertainment"};
     String typeOfExpense;
     final Calendar cldr = Calendar.getInstance();
     int day = cldr.get(Calendar.DAY_OF_MONTH);
@@ -43,7 +45,7 @@ public class InputActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input);
 
-        dateEditText = findViewById(R.id.dateEditText);
+        dateTextView = findViewById(R.id.dateTextView);
         costEditText = findViewById(R.id.costEditText);
         selectDateButton = findViewById(R.id.selectDateButton);
         addButton = findViewById(R.id.addContentButton);
@@ -58,7 +60,7 @@ public class InputActivity extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                dateEditText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                dateTextView.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                             }
                         }, year, month, day);
                 datePickerDialog.show();
@@ -87,6 +89,8 @@ public class InputActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alertAdd();
+//                InputDialog dialog = new InputDialog();
+//                dialog.show(getSupportFragmentManager(), "Input Dialog");
             }
         });
         viewExpenses.setOnClickListener(new View.OnClickListener() {
@@ -112,11 +116,11 @@ public class InputActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
-                    String date = dateEditText.getText().toString();
-                    if (date.isEmpty()) {
+                    String date = dateTextView.getText().toString();
+                    if (date.equals("Select Date")) {
                         throw new NoDateInputException();
                     }
-                    if (typeOfExpense.isEmpty()) {
+                    if (typeOfExpense.equals("Select Category")) {
                         Toast.makeText(InputActivity.this, "Please select type of expense", Toast.LENGTH_SHORT).show();
                         return;
                     }
