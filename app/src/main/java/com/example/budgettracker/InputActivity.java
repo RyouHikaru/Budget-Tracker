@@ -117,10 +117,10 @@ public class InputActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     String date = dateTextView.getText().toString();
-                    if (date.isEmpty()) {
+                    if (date.equals("Select Date")) {
                         throw new NoDateInputException();
                     }
-                    if (typeOfExpense.isEmpty()) {
+                    if (typeOfExpense.equals("Select Category")) {
                         Toast.makeText(InputActivity.this, "Please select type of expense", Toast.LENGTH_SHORT).show();
                         return;
                     }

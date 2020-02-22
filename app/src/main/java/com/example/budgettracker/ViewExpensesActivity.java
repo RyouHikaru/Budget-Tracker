@@ -21,6 +21,9 @@ import java.util.Calendar;
 import java.util.LinkedList;
 
 public class ViewExpensesActivity extends AppCompatActivity {
+    private String[] column = {"Food: ", "Housing: ", "Transportation: ",
+            "Utilities: ", "Insurance: ", "Health: ", "Debt and Investment: ",
+            "Entertainment: "};
     DatePickerDialog datePickerDialog;
     DatabaseHelper myDb;
     final Calendar cldr = Calendar.getInstance();
@@ -68,7 +71,6 @@ public class ViewExpensesActivity extends AppCompatActivity {
         });
     }
     public void accessData() {
-//        Cursor r = myDb.getAllData();
         Cursor r = myDb.getDataForDate(date);
         LinkedList<String> linkedList = new LinkedList();
 
@@ -80,19 +82,13 @@ public class ViewExpensesActivity extends AppCompatActivity {
         }
         else {
             while (r.moveToNext()) {
-                System.out.println("Food: " + r.getString(0));
-                System.out.println("Housing: " + r.getString(1));
-                System.out.println("Transportation: " + r.getString(2));
-                System.out.println("Utilities: " + r.getString(3));
-                System.out.println("Insurance: " + r.getString(4));
-                System.out.println("Health: " + r.getString(5));
-                System.out.println("Debt and Investment: " + r.getString(6));
-                System.out.println("Entertainment: " + r.getString(7));
                 for (int i = 0; i < 8; i++) {
-                    linkedList.add(r.getString(i));
+                    if (r.getString(i) == null)
+                        linkedList.add(column[i] + " ");
+                    else
+                        linkedList.add(column[i] + " " + r.getString(i));
                 }
             }
-
 
             System.out.println(linkedList);
 
