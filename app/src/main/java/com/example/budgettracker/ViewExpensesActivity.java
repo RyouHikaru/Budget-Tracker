@@ -24,17 +24,19 @@ public class ViewExpensesActivity extends AppCompatActivity {
     private String[] column = {"Food: ", "Housing: ", "Transportation: ",
             "Utilities: ", "Insurance: ", "Health: ", "Debt and Investment: ",
             "Entertainment: "};
-    DatePickerDialog datePickerDialog;
-    DatabaseHelper myDb;
-    final Calendar cldr = Calendar.getInstance();
-    int day = cldr.get(Calendar.DAY_OF_MONTH);
-    int month = cldr.get(Calendar.MONTH);
-    int year = cldr.get(Calendar.YEAR);
-    Button selectDate;
-    Button returnButton;
-    TextView dateTextView;
-    ListView listView;
-    String date;
+    private DatePickerDialog datePickerDialog;
+    private DatabaseHelper myDb;
+    private final Calendar cldr = Calendar.getInstance();
+    private int day = cldr.get(Calendar.DAY_OF_MONTH);
+    private int month = cldr.get(Calendar.MONTH);
+    private int year = cldr.get(Calendar.YEAR);
+    private Button selectDate;
+    private Button returnButton;
+    private TextView dateTextView;
+    private TextView totalCostTextView;
+    private ListView listView;
+    private String date;
+    private int totalCost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class ViewExpensesActivity extends AppCompatActivity {
         selectDate = findViewById(R.id.dateButton);
         returnButton = findViewById(R.id.ve_returnButton);
         listView = findViewById(R.id.ve_listView);
+        totalCostTextView = findViewById(R.id.ve_totalCost);
         myDb = new DatabaseHelper(this);
 
         selectDate.setOnClickListener(new View.OnClickListener() {
@@ -85,8 +88,10 @@ public class ViewExpensesActivity extends AppCompatActivity {
                 for (int i = 0; i < 8; i++) {
                     if (r.getString(i) == null)
                         linkedList.add(column[i] + " Not yet added");
-                    else
+                    else {
                         linkedList.add(column[i] + " " + r.getString(i));
+                        totalCost += Integer.parseInt(r.getString(i));
+                    }
                 }
             }
 
@@ -96,8 +101,10 @@ public class ViewExpensesActivity extends AppCompatActivity {
 
             for (int i = 0; i < linkedList.size(); i++) {
                 list[i] = linkedList.get(i);
-                System.out.println(list[i]);
             }
+
+            System.out.println(totalCost);
+            totalCostTextView.setText("Total Cost: " + totalCost);
 
             ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
             listView.setAdapter(adapter);
