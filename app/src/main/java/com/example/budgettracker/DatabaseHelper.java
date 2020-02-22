@@ -2,8 +2,12 @@ package com.example.budgettracker;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Expenses.db";
@@ -11,20 +15,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_1 = "date";
     public static final String COL_2 = "food_and_groceries";
     public static final String COL_3 = "home_expenses";
-    public static final String COL_4 = "leisure_and_entertainment";
+    public static final String COL_4 = "entertainment";
+    private SQLiteDatabase db;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
-        SQLiteDatabase db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_NAME
                 + " (" + COL_1 + " TEXT PRIMARY KEY, "
-                + COL_2 + " TEXT, "
-                + COL_3 + " TEXT, "
-                + COL_4 + " TEXT)");
+                + COL_2 + " NUMBER, "
+                + COL_3 + " NUMBER, "
+                + COL_4 + " NUMBER)");
     }
 
     @Override
@@ -32,13 +37,57 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
     }
 
-    public boolean insertData(String date, String homeExpense) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public boolean insertData(String date, String typeOfExpense, int cost) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1, date);
-        contentValues.put(COL_3, homeExpense);
 
-        long result = db.insert(TABLE_NAME, null, contentValues);
+        System.out.println(date + " " + typeOfExpense + " " + cost);
+
+        switch (typeOfExpense) {
+            case "Food and Groceries":
+                contentValues.put(COL_2, cost);
+                break;
+            case "Home expenses":
+                contentValues.put(COL_3, cost);
+                break;
+            case "Entertainment":
+                contentValues.put(COL_4, cost);
+                break;
+        }
+
+        long insertResult = db.insert(TABLE_NAME, null, contentValues);
+        System.out.println(insertResult);
+        if (insertResult == -1) {
+            if (updateData(date, typeOfExpense, cost) == true) {
+                return true;
+            }
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    public boolean updateData(String date, String typeOfExpense, int cost) {
+        ContentValues contentValues = new ContentValues();
+        String where = "date = ?";
+        String[] whereArgs = new String[] {date};
+
+        switch (typeOfExpense) {
+            case "Food and Groceries":
+                System.out.println("updateData() - case 1");
+                contentValues.put(COL_2, cost);
+                break;
+            case "Home expenses":
+                System.out.println("updateData() - case 2");
+                contentValues.put(COL_3, cost);
+                break;
+            case "Entertainment":
+                System.out.println("updateData() - case 3");
+                contentValues.put(COL_4, cost);
+                break;
+        }
+
+        long result = db.update(TABLE_NAME, contentValues, where, whereArgs);
         if (result == -1) {
             return false;
         }
@@ -46,4 +95,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
+
 }

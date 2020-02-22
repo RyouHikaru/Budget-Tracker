@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText purposeEditText = (EditText) findViewById(R.id.purposeEditView);
         final EditText costEditText = (EditText) findViewById(R.id.costEditView);
-        Button addButton = (Button) findViewById(R.id.addButton);
+        Button addButton = (Button) findViewById(R.id.addContentButton);
         Button viewButton = (Button) findViewById(R.id.viewButton);
 
         myDb = new DatabaseHelper(this);
