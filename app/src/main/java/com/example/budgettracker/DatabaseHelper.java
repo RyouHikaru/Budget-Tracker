@@ -3,6 +3,7 @@ package com.example.budgettracker;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
@@ -95,5 +96,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
-
+    public Cursor getAllData() {
+        db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        return res;
+    }
 }

@@ -5,7 +5,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -90,7 +92,8 @@ public class InputActivity extends AppCompatActivity {
         viewExpenses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(InputActivity.this, ViewExpensesActivity.class);
+                startActivity(intent);
             }
         });
     }
