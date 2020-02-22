@@ -8,13 +8,17 @@ import android.app.DatePickerDialog;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.SQLOutput;
 import java.util.Calendar;
+import java.util.LinkedList;
 
 public class ViewExpensesActivity extends AppCompatActivity {
     DatePickerDialog datePickerDialog;
@@ -26,17 +30,18 @@ public class ViewExpensesActivity extends AppCompatActivity {
     Button selectDate;
     Button returnButton;
     TextView dateTextView;
-    ScrollView scrollView;
+    ListView listView;
+    String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_expenses);
 
+        dateTextView = findViewById(R.id.ve_dateTextView);
         selectDate = findViewById(R.id.dateButton);
         returnButton = findViewById(R.id.ve_returnButton);
-        dateTextView = findViewById(R.id.ve_dateTextView);
-        scrollView = findViewById(R.id.ve_scrollView);
+        listView = findViewById(R.id.ve_listView);
         myDb = new DatabaseHelper(this);
 
         selectDate.setOnClickListener(new View.OnClickListener() {
@@ -46,7 +51,9 @@ public class ViewExpensesActivity extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                dateTextView.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                date = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                                dateTextView.setText(date);
+                                accessData();
                             }
                         }, year, month, day);
                 datePickerDialog.show();
@@ -59,31 +66,53 @@ public class ViewExpensesActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        accessData();
     }
     public void accessData() {
-        Cursor r = myDb.getAllData();
+//        Cursor r = myDb.getAllData();
+        Cursor r = myDb.getDataForDate(date);
+        LinkedList<String> linkedList = new LinkedList();
+
         if (r.getCount() == 0) {
-            System.out.println("No data");
+            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
+            ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, new String[]{});
+            listView.setAdapter(adapter);
             return;
         }
+        else {
+            while (r.moveToNext()) {
+                System.out.println("Food: " + r.getString(0));
+                System.out.println("Housing: " + r.getString(1));
+                System.out.println("Transportation: " + r.getString(2));
+                System.out.println("Utilities: " + r.getString(3));
+                System.out.println("Insurance: " + r.getString(4));
+                System.out.println("Health: " + r.getString(5));
+                System.out.println("Debt and Investment: " + r.getString(6));
+                System.out.println("Entertainment: " + r.getString(7));
+                for (int i = 0; i < 8; i++) {
+                    linkedList.add(r.getString(i));
+                }
+            }
 
-        StringBuffer buffer = new StringBuffer();
-        while(r.moveToNext()) {
-            buffer.append("Date: " + r.getString(0) + "\n");
-            buffer.append("Food expenses: " + r.getString(1) + "\n");
-            buffer.append("Home expenses: " + r.getString(2) + "\n");
-            buffer.append("Entertainment: " + r.getString(3) + "\n\n");
+
+            System.out.println(linkedList);
+
+            String[] list = new String[linkedList.size()];
+
+            for (int i = 0; i < linkedList.size(); i++) {
+                list[i] = linkedList.get(i);
+                System.out.println(list[i]);
+            }
+
+            ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
+            listView.setAdapter(adapter);
         }
-        showData(buffer.toString());
     }
-    public void showData(String msg) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setTitle("Data");
-        builder.setMessage(msg);
-        AlertDialog dialog = builder.show();
-        return;
-    }
+//    public void showData(String msg) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setCancelable(true);
+//        builder.setTitle("Data");
+//        builder.setMessage(msg);
+//        AlertDialog dialog = builder.show();
+//        return;
+//    }
 }
