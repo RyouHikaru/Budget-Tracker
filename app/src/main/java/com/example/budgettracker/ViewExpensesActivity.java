@@ -36,7 +36,6 @@ public class ViewExpensesActivity extends AppCompatActivity {
     private TextView totalCostTextView;
     private ListView listView;
     private String date;
-    private int totalCost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +73,7 @@ public class ViewExpensesActivity extends AppCompatActivity {
         });
     }
     public void accessData() {
+        int totalCost = 0;
         Cursor r = myDb.getDataForDate(date);
         LinkedList<String> linkedList = new LinkedList();
 
