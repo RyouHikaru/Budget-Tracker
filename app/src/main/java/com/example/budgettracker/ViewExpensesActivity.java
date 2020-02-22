@@ -84,7 +84,7 @@ public class ViewExpensesActivity extends AppCompatActivity {
             while (r.moveToNext()) {
                 for (int i = 0; i < 8; i++) {
                     if (r.getString(i) == null)
-                        linkedList.add(column[i] + " ");
+                        linkedList.add(column[i] + " Not yet added");
                     else
                         linkedList.add(column[i] + " " + r.getString(i));
                 }
