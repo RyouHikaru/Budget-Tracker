@@ -25,8 +25,7 @@ public class InputActivity extends AppCompatActivity {
     TextView dateTextView;
     EditText costEditText;
     Button selectDateButton;
-    Button addButton;
-    Button viewExpenses;
+    Button addButton, viewExpenses, calculatorButton;
     DatabaseHelper myDb;
     Spinner spinner;
     DatePickerDialog datePickerDialog;
@@ -49,6 +48,7 @@ public class InputActivity extends AppCompatActivity {
         costEditText = findViewById(R.id.costEditText);
         selectDateButton = findViewById(R.id.selectDateButton);
         addButton = findViewById(R.id.addContentButton);
+        calculatorButton = findViewById(R.id.calculatorButton);
         viewExpenses = findViewById(R.id.viewExpensesButton);
         myDb = new DatabaseHelper(this);
         spinner = findViewById(R.id.spinner);
@@ -89,14 +89,19 @@ public class InputActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alertAdd();
-//                InputDialog dialog = new InputDialog();
-//                dialog.show(getSupportFragmentManager(), "Input Dialog");
             }
         });
         viewExpenses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(InputActivity.this, ViewExpensesActivity.class);
+                startActivity(intent);
+            }
+        });
+        calculatorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InputActivity.this, CalculatorActivity.class);
                 startActivity(intent);
             }
         });

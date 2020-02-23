@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/dbt_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewExpensesActivity"></activity>
+        <activity android:name=".ViewExpensesActivity"/>
+        <activity android:name=".CalculatorActivity"/>
         <activity android:name=".InputActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
