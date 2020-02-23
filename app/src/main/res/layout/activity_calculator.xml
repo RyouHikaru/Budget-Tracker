@@ -206,7 +206,7 @@
 
     <Button
         android:id="@+id/c_returnButton"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:text="Return"
