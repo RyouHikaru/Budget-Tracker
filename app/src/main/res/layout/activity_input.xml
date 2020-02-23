@@ -57,21 +57,21 @@
         android:id="@+id/addContentButton"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="3dp"
         android:text="ADD"
-        app:layout_constraintBottom_toTopOf="@+id/viewExpensesButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/costEditText" />
 
     <Button
         android:id="@+id/viewExpensesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginBottom="30dp"
         android:text="View Expenses"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -111,5 +111,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <Button
+        android:id="@+id/calculatorButton"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="30dp"
+        android:text="Calculator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

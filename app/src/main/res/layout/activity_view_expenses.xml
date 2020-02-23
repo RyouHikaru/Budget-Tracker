@@ -20,7 +20,7 @@
 
     <Button
         android:id="@+id/dateButton"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Select Date"
@@ -66,7 +66,7 @@
 
     <Button
         android:id="@+id/ve_returnButton"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:text="Return"
